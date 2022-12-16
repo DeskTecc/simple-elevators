@@ -1,5 +1,5 @@
-# SimpleElevator
-Modified version of plugin SimpleElevator by Koboo
+# SimpleElevators
+Modified version of plugin SimpleElevators by Koboo
 
 Original sources:
 
