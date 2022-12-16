@@ -1,6 +1,7 @@
 package eu.koboo.simple.elevator;
 
 import eu.koboo.simple.elevator.config.ElevatorConfig;
+import eu.koboo.simple.elevator.listener.PlayerCommandListener;
 import eu.koboo.simple.elevator.listener.PlayerMoveListener;
 import eu.koboo.simple.elevator.listener.PlayerToggleSneakListener;
 import org.bukkit.Bukkit;
@@ -29,7 +30,7 @@ public class SimpleElevator extends JavaPlugin {
             this.saveDefaultConfig();
         }
         configReference = new AtomicReference<>(ElevatorConfig.loadConfig(this));
-
+        this.getCommand("elevator").setExecutor(new PlayerCommandListener());
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerToggleSneakListener(this), this);
 
