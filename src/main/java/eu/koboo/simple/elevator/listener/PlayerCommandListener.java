@@ -19,16 +19,24 @@ public class PlayerCommandListener implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
+
             Player player = (Player) sender;
-            ItemStack item = new ItemStack(Material.STICK,1);
+
+            ItemStack item = new ItemStack(Material.STICK, 1);
             ItemMeta meta = item.getItemMeta();
-            assert meta != null;
-            meta.setDisplayName("§l§bElevator Maker!");
-            item.setItemMeta(meta);
-            player.getInventory().addItem(item);
+            if (player.getInventory().contains(Material.STICK, 1)) {
+                player.getInventory().remove(Material.STICK);
 
+            } else {
+                assert meta != null;
+                meta.setDisplayName("§l§bElevator Maker!");
+                item.setItemMeta(meta);
+                player.getInventory().addItem(item);
 
+            }
         }
+
+
         else{
             getLogger().info("You need to be a player to do this!");
         }
