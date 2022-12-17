@@ -6,5 +6,5 @@ api-version: 1.13
 author: Koboo
 commands:
   elevator:
-    description: Your description
+    description: use this for get a Elevator Maker!
     usage: /<command>
