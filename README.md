@@ -18,3 +18,8 @@ Original sources:
   <li>[❌] Customize floors sound</li>
   <li>[❌] Finish :)</li>
 </ul>
+
+
+### PROGRESS BAR:
+
+## [17%] ▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱
