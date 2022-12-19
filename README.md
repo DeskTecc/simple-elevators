@@ -9,3 +9,10 @@ Original sources:
 <a href="https://github.com/Koboo/simple-elevators" style="text-decoration: none;margin:auto;">
   <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" style="width:200px;margin:auto;"></img>
 </a>
+
+
+### TODO LIST:
+- [x] Elevator Wand
+- [ ] Customize floors text
+- [ ] Customize floors sound
+- [ ] Finish :)

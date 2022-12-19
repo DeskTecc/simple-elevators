@@ -30,6 +30,7 @@ public class PlayerCommandListener implements CommandExecutor {
                     if (item.getItemMeta().hasDisplayName()) {
                         if (item.getItemMeta().getDisplayName().equals(ChatColor.AQUA+"Elevator Maker!")) {
                             item.setAmount(0);
+                            player.sendMessage(ChatColor.RED+"The Elevator Maker was removed from your inventory");
                             return true;
                         }
                     }
@@ -47,6 +48,7 @@ public class PlayerCommandListener implements CommandExecutor {
             meta.setLore(lore);
             item.setItemMeta(meta);
             player.getInventory().addItem(item);
+            player.sendMessage(ChatColor.GREEN+"The Elevator Maker was added to your hand");
         }
         else{
             getLogger().info("You must to be a player to do this!");

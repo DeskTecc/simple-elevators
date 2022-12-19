@@ -4,15 +4,19 @@ import eu.koboo.simple.elevator.config.ElevatorConfig;
 import eu.koboo.simple.elevator.listener.PlayerCommandListener;
 import eu.koboo.simple.elevator.listener.PlayerMoveListener;
 import eu.koboo.simple.elevator.listener.PlayerToggleSneakListener;
+import eu.koboo.simple.elevator.listener.WandListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.Action;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static org.bukkit.Bukkit.getPlayer;
 
 public class SimpleElevator extends JavaPlugin {
 
@@ -31,6 +35,7 @@ public class SimpleElevator extends JavaPlugin {
         }
         configReference = new AtomicReference<>(ElevatorConfig.loadConfig(this));
         this.getCommand("elevator").setExecutor(new PlayerCommandListener());
+        Bukkit.getPluginManager().registerEvents(new WandListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerToggleSneakListener(this), this);
 
