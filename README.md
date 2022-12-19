@@ -11,8 +11,10 @@ Original sources:
 </a>
 
 
-### TODO LIST:
-- [x] Elevator Wand
-- [ ] Customize floors text
-- [ ] Customize floors sound
-- [ ] Finish :)
+<h3> TODO LIST:</h3>
+<ul style="list-style-type: none;">
+  <li>[✔️] Elevator Wand </li>
+  <li>[❌] Customize floors text </li>
+  <li>[❌] Customize floors sound</li>
+  <li>[❌] Finish :)</li>
+</ul>
