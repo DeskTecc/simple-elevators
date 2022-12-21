@@ -7,8 +7,10 @@ import eu.koboo.simple.elevator.listener.PlayerToggleSneakListener;
 import eu.koboo.simple.elevator.listener.WandListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -79,6 +81,9 @@ public class SimpleElevator extends JavaPlugin {
             Block block = tempLoc.getBlock();
             if(!getElevatorConfig().elevatorBlockList().contains(block.getType())) {
                 continue;
+            }
+            if(!(tempLoc.add(0,2,0).getBlock().getType() == Material.AIR) || !(tempLoc.subtract(0,1,0).getBlock().getType() == Material.AIR)){
+                return null;
             }
             return tempLoc.add(0, 1, 0);
         }

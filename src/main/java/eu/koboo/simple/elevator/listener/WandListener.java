@@ -29,7 +29,7 @@ public class WandListener implements Listener {
                         Location locCheck1 = new Location(player.getWorld(),F1X,F1Y+1,F1Z);
                         Location locCheck2 = new Location(player.getWorld(),F1X,F1Y+2,F1Z);
                         if(locCheck1.getBlock().getType() == Material.AIR && locCheck2.getBlock().getType() == Material.AIR){
-                            player.sendMessage(ChatColor.BLUE+"You've selected: " + block.getType()+" on a location: "+F1X+" "+F1Y+" "+F1Z+" as your 1F.");
+                            player.sendMessage(ChatColor.AQUA+"You've selected: " + block.getType()+" on a location: "+F1X+" "+F1Y+" "+F1Z+" as your 1F.");
                         }
                         else{
                             player.sendMessage(ChatColor.DARK_RED+"An error has ocurred, please check if have blocks above of block you tried to select as 1F.");

@@ -4,6 +4,7 @@ import eu.koboo.simple.elevator.SimpleElevator;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -32,6 +33,7 @@ public class PlayerToggleSneakListener implements Listener {
         // Player wants to go down
         Location elevatorLoc = plugin.findNextElevatorBelow(player.getLocation().subtract(0, 1.5, 0));
         if(elevatorLoc == null) {
+            player.sendMessage(ChatColor.RED+"An error has ocurred, please check if don't have blocks above the elevator block.");
             return;
         }
         player.teleport(elevatorLoc);

@@ -4,10 +4,7 @@ import eu.koboo.simple.elevator.SimpleElevator;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -48,9 +45,14 @@ public class PlayerMoveListener implements Listener {
         }
         // Player wants to go up
         Location elevatorLoc = plugin.findNextElevatorAbove(from);
-        if(elevatorLoc == null) {
+        if (elevatorLoc == null) {
+            if (!player.isOnGround() && Double.compare(player.getVelocity().getY(), 0.42F) == 0) {
+                player.sendMessage(ChatColor.RED + "An error has ocurred, please check if don't have blocks above the elevator block.");
+            }
             return;
         }
+
+
         player.teleport(elevatorLoc);
         player.playSound(elevatorLoc, Sound.ENTITY_BAT_TAKEOFF, 2f, 1f);
     }
