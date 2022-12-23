@@ -1,7 +1,9 @@
 package eu.koboo.simple.elevator.listener;
 
+import eu.koboo.simple.elevator.SimpleElevator;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,10 +11,16 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.SimpleServicesManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.Objects;
 
 public class WandListener implements Listener {
+
+    Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("SimpleElevator");
     @EventHandler
     public boolean onPlayerClick(PlayerInteractEvent event){
         Player player = event.getPlayer();
@@ -30,6 +38,9 @@ public class WandListener implements Listener {
                         Location locCheck2 = new Location(player.getWorld(),F1X,F1Y+2,F1Z);
                         if(locCheck1.getBlock().getType() == Material.AIR && locCheck2.getBlock().getType() == Material.AIR){
                             player.sendMessage(ChatColor.AQUA+"You've selected: " + block.getType()+" on a location: "+F1X+" "+F1Y+" "+F1Z+" as your 1F.");
+                            FileConfiguration config = plugin.getConfig();
+                            config.addDefault("settings.elevators.owners", player.getDisplayName());
+                            plugin.saveConfig();
                         }
                         else{
                             player.sendMessage(ChatColor.DARK_RED+"An error has ocurred, please check if have blocks above of block you tried to select as 1F.");
@@ -52,6 +63,7 @@ public class WandListener implements Listener {
         }
         return true;
     }
+
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event){
         Player player = event.getPlayer();
