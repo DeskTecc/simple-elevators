@@ -26,7 +26,6 @@ import static org.bukkit.Bukkit.getPlayer;
 public class SimpleElevator extends JavaPlugin {
 
     private AtomicReference<ElevatorConfig> configReference;
-    public static SimpleElevator instance;
     @Override
     public void onEnable() {
         File pluginDir = getDataFolder();
@@ -41,7 +40,6 @@ public class SimpleElevator extends JavaPlugin {
         configReference = new AtomicReference<>(ElevatorConfig.loadConfig(this));
         this.getCommand("elevator").setExecutor(new PlayerCommandListener());
         Bukkit.getPluginManager().registerEvents(new WandListener(), this);
-        //Bukkit.getPluginManager().registerEvents(this.onPlayerClick(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerToggleSneakListener(this), this);
 

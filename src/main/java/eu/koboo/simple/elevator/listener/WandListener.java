@@ -40,18 +40,43 @@ public class WandListener implements Listener {
                         if(locCheck1.getBlock().getType() == Material.AIR && locCheck2.getBlock().getType() == Material.AIR){
                             player.sendMessage(ChatColor.AQUA+"You've selected: " + block.getType()+" on a location: "+F1X+" "+F1Y+" "+F1Z+" as your 1F.");
                             FileConfiguration config = plugin.getConfig();
-                            ConfigurationSection owners = config.getConfigurationSection("settings.elevators.owners");
                             if(config.contains("settings.elevators.owners."+player.getDisplayName())){
-                                player.sendMessage("Você já existe!");
-                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".X1");
-                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".Y1");
-                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".Z1");
-                                config.set("settings.elevators.owners."+player.getDisplayName()+".X1", F1X);
-                                config.set("settings.elevators.owners."+player.getDisplayName()+".Y1", F1Y);
-                                config.set("settings.elevators.owners."+player.getDisplayName()+".Z1", F1Z);
+                                if(config.contains("settings.elevators.owners."+player.getDisplayName()+".X2")){
+                                    if(config.getInt("settings.elevators.owners."+player.getDisplayName()+".X2") != F1X && config.getInt("settings.elevators.owners."+player.getDisplayName()+".Y2") != F1Y && config.getInt("settings.elevators.owners."+player.getDisplayName()+".Z2") != F1Z) {
+                                        config.createSection("settings.elevators.owners."+player.getDisplayName()+".X1");
+                                        config.createSection("settings.elevators.owners."+player.getDisplayName()+".Y1");
+                                        config.createSection("settings.elevators.owners."+player.getDisplayName()+".Z1");
+                                        config.set("settings.elevators.owners."+player.getDisplayName()+".X1", F1X);
+                                        config.set("settings.elevators.owners."+player.getDisplayName()+".Y1", F1Y);
+                                        config.set("settings.elevators.owners."+player.getDisplayName()+".Z1", F1Z);
+                                    }
+                                    else{
+                                        player.sendMessage(ChatColor.DARK_RED+"An error has ocurred, you can't select same block as 1F and 2F.");
+                                    }
+                                }
+                                else{
+                                    config.createSection("settings.elevators.owners."+player.getDisplayName()+".X1");
+                                    config.createSection("settings.elevators.owners."+player.getDisplayName()+".Y1");
+                                    config.createSection("settings.elevators.owners."+player.getDisplayName()+".Z1");
+                                    config.createSection("settings.elevators.owners."+player.getDisplayName()+".X2");
+                                    config.createSection("settings.elevators.owners."+player.getDisplayName()+".Y2");
+                                    config.createSection("settings.elevators.owners."+player.getDisplayName()+".Z2");
+                                    config.set("settings.elevators.owners."+player.getDisplayName()+".X1", F1X);
+                                    config.set("settings.elevators.owners."+player.getDisplayName()+".Y1", F1Y);
+                                    config.set("settings.elevators.owners."+player.getDisplayName()+".Z1", F1Z);
+                                }
                             }
                             else {
                                 config.createSection("settings.elevators.owners."+player.getDisplayName());
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".X1");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".Y1");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".Z1");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".X2");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".Y2");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".Z2");
+                                config.set("settings.elevators.owners."+player.getDisplayName()+".X1", F1X);
+                                config.set("settings.elevators.owners."+player.getDisplayName()+".Y1", F1Y);
+                                config.set("settings.elevators.owners."+player.getDisplayName()+".Z1", F1Z);
                             }
                             plugin.saveConfig();
                         }
@@ -67,6 +92,47 @@ public class WandListener implements Listener {
                         Location locCheck2 = new Location(player.getWorld(), F2X, F2Y + 2, F2Z);
                         if (locCheck1.getBlock().getType() == Material.AIR && locCheck2.getBlock().getType() == Material.AIR) {
                             player.sendMessage(ChatColor.BLUE + "You've selected: " + block.getType() + " on a location: " + F2X + " " + F2Y + " " + F2Z + " as your 2F.");
+                            FileConfiguration config = plugin.getConfig();
+                            if(config.contains("settings.elevators.owners."+player.getDisplayName())){
+                                if(config.contains("settings.elevators.owners."+player.getDisplayName()+".X1")){
+                                    if(!(config.getInt("settings.elevators.owners."+player.getDisplayName()+".X1") == F2X) && !(config.getInt("settings.elevators.owners."+player.getDisplayName()+".Y1") == F2Y) && !(config.getInt("settings.elevators.owners."+player.getDisplayName()+".Z1") == F2Z)) {
+                                        player.sendMessage("Você já existe!");
+                                        config.createSection("settings.elevators.owners." + player.getDisplayName() + ".X2");
+                                        config.createSection("settings.elevators.owners." + player.getDisplayName() + ".Y2");
+                                        config.createSection("settings.elevators.owners." + player.getDisplayName() + ".Z2");
+                                        config.set("settings.elevators.owners." + player.getDisplayName() + ".X2", F2X);
+                                        config.set("settings.elevators.owners." + player.getDisplayName() + ".Y2", F2Y);
+                                        config.set("settings.elevators.owners." + player.getDisplayName() + ".Z2", F2Z);
+                                    }
+                                    else {
+                                        player.sendMessage(ChatColor.DARK_RED+"An error has ocurred, you can't select same block as 1F and 2F.");
+                                    }
+                                }
+                                else{
+                                    config.createSection("settings.elevators.owners."+player.getDisplayName()+".X1");
+                                    config.createSection("settings.elevators.owners."+player.getDisplayName()+".Y1");
+                                    config.createSection("settings.elevators.owners."+player.getDisplayName()+".Z1");
+                                    config.createSection("settings.elevators.owners."+player.getDisplayName()+".X2");
+                                    config.createSection("settings.elevators.owners."+player.getDisplayName()+".Y2");
+                                    config.createSection("settings.elevators.owners."+player.getDisplayName()+".Z2");
+                                    config.set("settings.elevators.owners."+player.getDisplayName()+".X2", F2X);
+                                    config.set("settings.elevators.owners."+player.getDisplayName()+".Y2", F2Y);
+                                    config.set("settings.elevators.owners."+player.getDisplayName()+".Z2", F2Z);
+                                }
+                            }
+                            else{
+                                config.createSection("settings.elevators.owners."+player.getDisplayName());
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".X1");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".Y1");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".Z1");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".X2");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".Y2");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".Z2");
+                                config.set("settings.elevators.owners."+player.getDisplayName()+".X2", F2X);
+                                config.set("settings.elevators.owners."+player.getDisplayName()+".Y2", F2Y);
+                                config.set("settings.elevators.owners."+player.getDisplayName()+".Z2", F2Z);
+                            }
+
                         } else {
                             player.sendMessage(ChatColor.DARK_RED + "An error has ocurred, please check if have blocks above of block you tried to select as 2F.");
                         }
