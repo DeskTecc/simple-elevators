@@ -3,6 +3,7 @@ package eu.koboo.simple.elevator.listener;
 import eu.koboo.simple.elevator.SimpleElevator;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,7 +40,19 @@ public class WandListener implements Listener {
                         if(locCheck1.getBlock().getType() == Material.AIR && locCheck2.getBlock().getType() == Material.AIR){
                             player.sendMessage(ChatColor.AQUA+"You've selected: " + block.getType()+" on a location: "+F1X+" "+F1Y+" "+F1Z+" as your 1F.");
                             FileConfiguration config = plugin.getConfig();
-                            config.addDefault("settings.elevators.owners", player.getDisplayName());
+                            ConfigurationSection owners = config.getConfigurationSection("settings.elevators.owners");
+                            if(config.contains("settings.elevators.owners."+player.getDisplayName())){
+                                player.sendMessage("Você já existe!");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".X1");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".Y1");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".Z1");
+                                config.set("settings.elevators.owners."+player.getDisplayName()+".X1", F1X);
+                                config.set("settings.elevators.owners."+player.getDisplayName()+".Y1", F1Y);
+                                config.set("settings.elevators.owners."+player.getDisplayName()+".Z1", F1Z);
+                            }
+                            else {
+                                config.createSection("settings.elevators.owners."+player.getDisplayName());
+                            }
                             plugin.saveConfig();
                         }
                         else{
