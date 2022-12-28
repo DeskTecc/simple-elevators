@@ -1,7 +1,7 @@
 # SimpleElevator configuration file
 settings:
   elevator-blocks:
-    - LAPIS_BLOCk
+    - LAPIS_BLOCK
     - REDSTONE_BLOCK
   elevators:
     owners:

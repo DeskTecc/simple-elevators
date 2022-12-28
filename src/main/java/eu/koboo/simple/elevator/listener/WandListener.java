@@ -17,6 +17,7 @@ import org.bukkit.plugin.SimpleServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -41,32 +42,54 @@ public class WandListener implements Listener {
                         if(locCheck1.getBlock().getType() == Material.AIR && locCheck2.getBlock().getType() == Material.AIR){
                             FileConfiguration config = plugin.getConfig();
                             if(config.contains("settings.elevators.owners."+player.getDisplayName())){
-                                        player.sendMessage(ChatColor.AQUA+"You've selected: " + block.getType()+" on a location: "+F1X+" "+F1Y+" "+F1Z+" as your 1F.");
-                                        config.createSection("settings.elevators.owners."+player.getDisplayName()+".X1");
-                                        config.createSection("settings.elevators.owners."+player.getDisplayName()+".Y1");
-                                        config.createSection("settings.elevators.owners."+player.getDisplayName()+".Z1");
-                                        config.set("settings.elevators.owners."+player.getDisplayName()+".X1", F1X);
-                                        config.set("settings.elevators.owners."+player.getDisplayName()+".Y1", F1Y);
-                                        config.set("settings.elevators.owners."+player.getDisplayName()+".Z1", F1Z);
-                                        if(config.contains("settings.elevators.owners."+player.getDisplayName()+".X2")){
-                                            config.set("settings.elevators.owners."+player.getDisplayName()+".X2", null);
-                                            config.set("settings.elevators.owners."+player.getDisplayName()+".Y2", null);
-                                            config.set("settings.elevators.owners."+player.getDisplayName()+".Z2", null);
-                                            player.sendMessage(ChatColor.YELLOW+"You changed the 1F, please select 2F pressing right click.");
-                                        }else{
-                                            player.sendMessage(ChatColor.YELLOW+"Select 2F pressing right click.");
-                                        }
+                                if(config.contains("settings.elevators.owners."+player.getDisplayName()+".X1")){
+                                    int Blockx1 = config.getInt("settings.elevators.owners."+player.getDisplayName()+".X1");
+                                    int Blocky1 = config.getInt("settings.elevators.owners."+player.getDisplayName()+".Y1");
+                                    int Blockz1 = config.getInt("settings.elevators.owners."+player.getDisplayName()+".Z1");
+                                    //make the 2F reset to previous block and null the location
+                                    String Blocktype1 = config.getString("settings.elevators.owners."+player.getDisplayName()+".prev-block-1");
+                                    Location old_block1 = new Location(player.getWorld(), Blockx1,Blocky1,Blockz1);
+                                    old_block1.getBlock().setType(Material.valueOf(Blocktype1));
+                                    config.set("settings.elevators.owners."+player.getDisplayName()+".X1", null);
+                                    config.set("settings.elevators.owners."+player.getDisplayName()+".Y1", null);
+                                    config.set("settings.elevators.owners."+player.getDisplayName()+".Z1", null);
+                                }
+                                player.sendMessage(ChatColor.AQUA+"You've selected: " + block.getType()+" on a location: "+F1X+" "+F1Y+" "+F1Z+" as your 1F.");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".X1");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".Y1");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".Z1");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".prev-block-1");
+                                config.set("settings.elevators.owners."+player.getDisplayName()+".prev-block-1", block.getType().name());
+                                config.set("settings.elevators.owners."+player.getDisplayName()+".X1", F1X);
+                                config.set("settings.elevators.owners."+player.getDisplayName()+".Y1", F1Y);
+                                config.set("settings.elevators.owners."+player.getDisplayName()+".Z1", F1Z);
+                                List<String> firstElevatorBlock = (List<String>) config.get("settings.elevator-blocks");
+                                block.setType(Material.valueOf((firstElevatorBlock.get(0))));
+                                if(config.contains("settings.elevators.owners."+player.getDisplayName()+".X2")){
+                                    config.set("settings.elevators.owners."+player.getDisplayName()+".X2", null);
+                                    config.set("settings.elevators.owners."+player.getDisplayName()+".Y2", null);
+                                    config.set("settings.elevators.owners."+player.getDisplayName()+".Z2", null);
+                                    player.sendMessage(ChatColor.YELLOW+"You changed the 1F, please select 2F pressing right click.");
+                                }else{
+                                    player.sendMessage(ChatColor.YELLOW+"Select 2F pressing right click.");
+                                }
                             }
                             else {
                                 player.sendMessage(ChatColor.AQUA+"You've selected: " + block.getType()+" on a location: "+F1X+" "+F1Y+" "+F1Z+" as your 1F.");
                                 config.createSection("settings.elevators.owners."+player.getDisplayName()+".X1");
                                 config.createSection("settings.elevators.owners."+player.getDisplayName()+".Y1");
                                 config.createSection("settings.elevators.owners."+player.getDisplayName()+".Z1");
+                                config.createSection("settings.elevators.owners."+player.getDisplayName()+".prev-block-1");
+                                config.set("settings.elevators.owners."+player.getDisplayName()+".prev-block-1", block.getType().name());
                                 config.set("settings.elevators.owners."+player.getDisplayName()+".X1", F1X);
                                 config.set("settings.elevators.owners."+player.getDisplayName()+".Y1", F1Y);
                                 config.set("settings.elevators.owners."+player.getDisplayName()+".Z1", F1Z);
+                                player.sendMessage(ChatColor.YELLOW+"Select 2F pressing right click.");
+                                List<String> firstElevatorBlock = (List<String>) config.get("settings.elevator-blocks");
+                                block.setType(Material.valueOf((firstElevatorBlock.get(0))));
                             }
                             plugin.saveConfig();
+
                         }
                         else{
                             player.sendMessage(ChatColor.DARK_RED+"An error has ocurred, please check if have blocks above of block you tried to select as 1F.");
@@ -83,26 +106,39 @@ public class WandListener implements Listener {
                             if(config.contains("settings.elevators.owners."+player.getDisplayName())){
                                 if(config.contains("settings.elevators.owners."+player.getDisplayName()+".X1")){
                                     if(config.getInt("settings.elevators.owners."+player.getDisplayName()+".X1") == F2X && config.getInt("settings.elevators.owners."+player.getDisplayName()+".Y1") < F2Y && config.getInt("settings.elevators.owners."+player.getDisplayName()+".Z1") == F2Z) {
-                                        player.sendMessage(ChatColor.BLUE + "You've selected: " + block.getType() + " on a location: " + F2X + " " + F2Y + " " + F2Z + " as your 2F.");
-                                        config.createSection("settings.elevators.owners." + player.getDisplayName() + ".X2");
-                                        config.createSection("settings.elevators.owners." + player.getDisplayName() + ".Y2");
-                                        config.createSection("settings.elevators.owners." + player.getDisplayName() + ".Z2");
-                                        config.set("settings.elevators.owners." + player.getDisplayName() + ".X2", F2X);
-                                        config.set("settings.elevators.owners." + player.getDisplayName() + ".Y2", F2Y);
-                                        config.set("settings.elevators.owners." + player.getDisplayName() + ".Z2", F2Z);
+                                        if(F2Y - config.getInt("settings.elevators.owners."+player.getDisplayName()+".Y1") <= 2){
+                                            player.sendMessage(ChatColor.DARK_RED+"An error has ocurred, please select the elevator block 2 blocks above or below of your 1F.");
+                                        }
+                                        else {
+                                            player.sendMessage(ChatColor.BLUE + "You've selected: " + block.getType() + " on a location: " + F2X + " " + F2Y + " " + F2Z + " as your 2F.");
+                                            config.createSection("settings.elevators.owners." + player.getDisplayName() + ".X2");
+                                            config.createSection("settings.elevators.owners." + player.getDisplayName() + ".Y2");
+                                            config.createSection("settings.elevators.owners." + player.getDisplayName() + ".Z2");
+                                            config.createSection("settings.elevators.owners." + player.getDisplayName() + ".prev-block-2");
+                                            config.set("settings.elevators.owners." + player.getDisplayName() + ".prev-block-2", block.getType().name());
+                                            config.set("settings.elevators.owners." + player.getDisplayName() + ".X2", F2X);
+                                            config.set("settings.elevators.owners." + player.getDisplayName() + ".Y2", F2Y);
+                                            config.set("settings.elevators.owners." + player.getDisplayName() + ".Z2", F2Z);
+                                            List<String> firstElevatorBlock = (List<String>) config.get("settings.elevator-blocks");
+                                            block.setType(Material.valueOf((firstElevatorBlock.get(0))));
+                                        }
                                     }
-                                    else if(config.getInt("settings.elevators.owners."+player.getDisplayName()+".X1") == F2X && config.getInt("settings.elevators.owners."+player.getDisplayName()+".Y1") > F2Y && config.getInt("settings.elevators.owners."+player.getDisplayName()+".Z1") == F2Z){
+                                    else if(config.getInt("settings.elevators.owners."+player.getDisplayName()+".Y1") > F2Y){
                                         config.set("settings.elevators.owners." + player.getDisplayName() + ".X2", F2X);
                                         config.set("settings.elevators.owners." + player.getDisplayName() + ".Y2", config.getInt("settings.elevators.owners." + player.getDisplayName() + ".Y1"));
                                         config.set("settings.elevators.owners." + player.getDisplayName() + ".Y1", F2Y);
                                         config.set("settings.elevators.owners." + player.getDisplayName() + ".Z2", F2Z);
+                                        config.createSection("settings.elevators.owners."+player.getDisplayName()+".prev-block-2");
+                                        config.set("settings.elevators.owners."+player.getDisplayName()+".prev-block-2", block.getType().name());
                                         player.sendMessage(ChatColor.YELLOW + "Your 1F changed to: " + F2X + " " + F2Y + " " + F2Z);
+                                        List<String> firstElevatorBlock = (List<String>) config.get("settings.elevator-blocks");
+                                        block.setType(Material.valueOf((firstElevatorBlock.get(0))));
                                     }
                                     else if(config.getInt("settings.elevators.owners."+player.getDisplayName()+".X1") == F2X && config.getInt("settings.elevators.owners."+player.getDisplayName()+".Y1") == F2Y && config.getInt("settings.elevators.owners."+player.getDisplayName()+".Z1") == F2Z){
                                         player.sendMessage(ChatColor.DARK_RED+"An error has ocurred, you can't select same block as 1F and 2F.");
                                     }
                                     else{
-                                        player.sendMessage(ChatColor.DARK_RED+"An error has ocurred, please select an elevator block above or below of your 1F.");
+                                        player.sendMessage(ChatColor.DARK_RED+"An error has ocurred, please select the elevator block 2 blocks above or below of your 1F.");
                                     }
                                 }
                                 else{
