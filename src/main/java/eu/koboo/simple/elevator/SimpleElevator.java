@@ -1,6 +1,7 @@
 package eu.koboo.simple.elevator;
 
 import eu.koboo.simple.elevator.config.ElevatorConfig;
+import eu.koboo.simple.elevator.config.ElevatorCustomize;
 import eu.koboo.simple.elevator.listener.PlayerCommandListener;
 import eu.koboo.simple.elevator.listener.PlayerMoveListener;
 import eu.koboo.simple.elevator.listener.PlayerToggleSneakListener;
@@ -43,6 +44,7 @@ public class SimpleElevator extends JavaPlugin {
         configReference = new AtomicReference<>(ElevatorConfig.loadConfig(this));
         this.getCommand("elevator").setExecutor(new PlayerCommandListener());
         this.getCommand("delete").setExecutor(new WandListener());
+        this.getCommand("name").setExecutor(new ElevatorCustomize());
         Bukkit.getPluginManager().registerEvents(new WandListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerToggleSneakListener(this), this);

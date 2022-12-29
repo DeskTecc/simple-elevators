@@ -28,7 +28,7 @@ import static org.bukkit.Bukkit.getLogger;
 
 public class WandListener implements Listener, CommandExecutor {
 
-    Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("SimpleElevator");
+    static Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("SimpleElevator");
     @EventHandler
     public boolean onPlayerClick(PlayerInteractEvent event){
         Player player = event.getPlayer();
@@ -145,6 +145,8 @@ public class WandListener implements Listener, CommandExecutor {
                                     else{
                                         player.sendMessage(ChatColor.DARK_RED+"An error has ocurred, please select the elevator block 2 blocks above or below of your 1F.");
                                     }
+                                    player.sendMessage(ChatColor.GREEN+"All right! now you need to give a name to save your elevator.\n"+ChatColor.YELLOW+"Use /name <name> to give a name to your elevator.");
+                                    player.playSound(player.getLocation(),Sound.ENTITY_PLAYER_LEVELUP, 2f,1f);
                                 }
                                 else{
                                     player.sendMessage(ChatColor.DARK_RED+"An error has ocurred, you need select 1F before 2F.");
@@ -190,7 +192,7 @@ public class WandListener implements Listener, CommandExecutor {
             }
         return true;
     }
-    public void resetBlocks(Player player_, String option){
+    public static void resetBlocks(Player player_, String option){
         FileConfiguration config = plugin.getConfig();
         Player player = player_;
         if(option.equals("only1")) {

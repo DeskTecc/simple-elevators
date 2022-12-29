@@ -10,3 +10,5 @@ commands:
     usage: /<command>
   delete:
     usage: /<command>
+  name:
+    usage: /<command>
