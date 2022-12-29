@@ -1,4 +1,9 @@
 # SimpleElevators
+
+![image](https://img.shields.io/github/directory-file-count/DeskTecc/simple-elevators)
+![image](https://img.shields.io/github/repo-size/DeskTecc/simple-elevators)
+![image](https://img.shields.io/github/downloads/DeskTecc/simple-elevators/total)
+
 Modified version of plugin SimpleElevators by Koboo
 
 Original sources:
@@ -22,4 +27,4 @@ Original sources:
 
 ### PROGRESS BAR:
 
-## [21%] ▰▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱
+## [23%] ▰▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱

@@ -47,7 +47,9 @@ public class PlayerMoveListener implements Listener {
         Location elevatorLoc = plugin.findNextElevatorAbove(from);
         if (elevatorLoc == null) {
             if (!player.isOnGround() && Double.compare(player.getVelocity().getY(), 0.42F) == 0) {
-                player.sendMessage(ChatColor.RED + "An error has ocurred, please check if don't have blocks above the elevator block.");
+                if(to.getBlock().getType() != Material.AIR){
+                    player.sendMessage(ChatColor.RED + "An error has ocurred, please check if don't have blocks above the elevator block.");
+                }
             }
             return;
         }

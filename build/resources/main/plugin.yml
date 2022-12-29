@@ -8,3 +8,5 @@ commands:
   elevator:
     description: use this for get a Elevator Maker!
     usage: /<command>
+  delete:
+    usage: /<command>
