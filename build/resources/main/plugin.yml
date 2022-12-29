@@ -5,10 +5,5 @@ description: Simple elevators for your server
 api-version: 1.13
 author: Koboo
 commands:
-  elevator:
-    description: use this for get a Elevator Maker!
-    usage: /<command>
-  delete:
-    usage: /<command>
-  name:
-    usage: /<command>
+  se:
+    usage: /se <command>

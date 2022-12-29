@@ -4,4 +4,3 @@ settings:
     - LAPIS_BLOCK
     - REDSTONE_BLOCK
   elevators:
-    owners:

@@ -1,7 +1,6 @@
 package eu.koboo.simple.elevator;
 
 import eu.koboo.simple.elevator.config.ElevatorConfig;
-import eu.koboo.simple.elevator.config.ElevatorCustomize;
 import eu.koboo.simple.elevator.listener.PlayerCommandListener;
 import eu.koboo.simple.elevator.listener.PlayerMoveListener;
 import eu.koboo.simple.elevator.listener.PlayerToggleSneakListener;
@@ -10,18 +9,9 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -42,9 +32,7 @@ public class SimpleElevator extends JavaPlugin {
             this.saveDefaultConfig();
         }
         configReference = new AtomicReference<>(ElevatorConfig.loadConfig(this));
-        this.getCommand("elevator").setExecutor(new PlayerCommandListener());
-        this.getCommand("delete").setExecutor(new WandListener());
-        this.getCommand("name").setExecutor(new ElevatorCustomize());
+        this.getCommand("se").setExecutor(new PlayerCommandListener());
         Bukkit.getPluginManager().registerEvents(new WandListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerToggleSneakListener(this), this);
@@ -67,16 +55,19 @@ public class SimpleElevator extends JavaPlugin {
         if(world == null) {
             return null;
         }
-        ConfigurationSection names = config.getConfigurationSection("settings.elevators.owners");
+        ConfigurationSection names = config.getConfigurationSection("settings.elevators");
         if(names == null){
             return null;
         }
-        for(int counter=1;counter<3;counter++) {
-            for (String coords : names.getKeys(false)) {
-                if (location.getBlockX() == config.getInt("settings.elevators.owners." + coords + ".X" + counter) && location.getBlockY() - 1 == config.getInt("settings.elevators.owners." + coords + ".Y" + counter) && location.getBlockZ() == config.getInt("settings.elevators.owners." + coords + ".Z" + counter)) {
+        for (String coords : names.getKeys(false)) {
+                if (location.getBlockX() == config.getInt("settings.elevators." + coords + ".1F.X")
+                        || location.getBlockX() == config.getInt("settings.elevators." + coords + ".2F.X")
+                        && location.getBlockY() - 1 == config.getInt("settings.elevators." + coords + ".1F.Y")
+                        || location.getBlockY() - 1 == config.getInt("settings.elevators." + coords + ".2F.Y")
+                        && location.getBlockZ() == config.getInt("settings.elevators." + coords + ".1F.Z")
+                        || location.getBlockZ() == config.getInt("settings.elevators." + coords + ".2F.Z")) {
                     return findNextElevator(location, location.getBlockY(), world.getMaxHeight(), true);
                 }
-            }
         }
         return null;
     }
@@ -87,16 +78,19 @@ public class SimpleElevator extends JavaPlugin {
         if (world == null) {
             return null;
         }
-        ConfigurationSection names = config.getConfigurationSection("settings.elevators.owners");
+        ConfigurationSection names = config.getConfigurationSection("settings.elevators");
         if(names == null){
             return null;
         }
-        for(int counter=1;counter<3;counter++) {
-            for (String coords : names.getKeys(false)) {
-                if (location.getBlockX() == config.getInt("settings.elevators.owners." + coords + ".X" + counter) && location.getBlockY() + 1 == config.getInt("settings.elevators.owners." + coords + ".Y" + counter) && location.getBlockZ() == config.getInt("settings.elevators.owners." + coords + ".Z" + counter)) {
+        for (String coords : names.getKeys(false)) {
+                if (location.getBlockX() == config.getInt("settings.elevators." + coords + ".1F.X")
+                        || location.getBlockX() == config.getInt("settings.elevators." + coords + ".2F.X")
+                        && location.getBlockY() + 1 == config.getInt("settings.elevators." + coords + ".1F.Y")
+                        || location.getBlockY() + 1 == config.getInt("settings.elevators." + coords + ".2F.Y")
+                        && location.getBlockZ() == config.getInt("settings.elevators." + coords + ".1F.Z")
+                        || location.getBlockZ() == config.getInt("settings.elevators." + coords + ".2F.Z")) {
                     return findNextElevator(location, world.getMinHeight(), location.getBlockY(), false);
                 }
-            }
         }
         return null;
     }
