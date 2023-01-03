@@ -36,7 +36,6 @@ public class SimpleElevator extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new WandListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerToggleSneakListener(this), this);
-
         super.onEnable();
     }
 

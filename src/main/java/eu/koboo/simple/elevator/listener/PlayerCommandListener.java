@@ -1,10 +1,7 @@
 package eu.koboo.simple.elevator.listener;
 
 
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -87,27 +84,29 @@ public class PlayerCommandListener implements CommandExecutor {
                     return true;
                 }
                 for (String elevators : names.getKeys(false)) {
-                    if(config.get("settings.elevators."+elevators)!= null){
-                        if(config.get("settings.elevators."+elevators+".owner") == player.getDisplayName()){
-                            Location old_block1 = new Location(player.getWorld(),
-                                    config.getInt("settings.elevators." +elevators+ ".1F.X"),
-                                    config.getInt("settings.elevators." +elevators+ ".1F.Y"),
-                                    config.getInt("settings.elevators." +elevators+ ".1F.Z"));
-                            Location old_block2 = new Location(player.getWorld(),
-                                    config.getInt("settings.elevators." +elevators+ ".2F.X"),
-                                    config.getInt("settings.elevators." +elevators+ ".2F.Y"),
-                                    config.getInt("settings.elevators." +elevators+ ".2F.Z"));
-                            old_block1.getBlock().setType(Material.valueOf(config.getString("settings.elevators."+elevators+".1F.prev-block")));
-                            old_block2.getBlock().setType(Material.valueOf(config.getString("settings.elevators."+elevators+".2F.prev-block")));
-                            config.set("settings.elevators."+elevators,null);
-                            plugin.saveConfig();
-                            player.playSound(player.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,2f,1f);
-                            player.sendMessage(ChatColor.GREEN + "Done!");
-                            return true;
+                    if(config.get("settings.elevators."+elevators)!= null && !Objects.equals(config.get("settings.elevators." + elevators), player.getDisplayName())){
+                        if(Objects.equals(config.getString("settings.elevators." + elevators + ".owner"), player.getDisplayName())) {
+                            if(config.getBoolean("settings.elevators."+elevators+".deleting")) {
+                                Location old_block1 = new Location(player.getWorld(),
+                                        config.getInt("settings.elevators." + elevators + ".1F.X"),
+                                        config.getInt("settings.elevators." + elevators + ".1F.Y"),
+                                        config.getInt("settings.elevators." + elevators + ".1F.Z"));
+                                Location old_block2 = new Location(player.getWorld(),
+                                        config.getInt("settings.elevators." + elevators + ".2F.X"),
+                                        config.getInt("settings.elevators." + elevators + ".2F.Y"),
+                                        config.getInt("settings.elevators." + elevators + ".2F.Z"));
+                                old_block1.getBlock().setType(Material.valueOf(config.getString("settings.elevators." + elevators + ".1F.prev-block")));
+                                old_block2.getBlock().setType(Material.valueOf(config.getString("settings.elevators." + elevators + ".2F.prev-block")));
+                                config.set("settings.elevators." + elevators, null);
+                                plugin.saveConfig();
+                                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 2f, 1f);
+                                player.sendMessage(ChatColor.GREEN + "Done!");
+                                return true;
+                            }
                         }
                     }
                 }
-                player.sendMessage(ChatColor.RED + "You dont have any elevator!");
+                player.sendMessage(ChatColor.RED + "You have not selected any elevator!");
                 return true;
             }
             if (args.length > 1 && Objects.equals(args[0], "name")) {
@@ -160,6 +159,26 @@ public class PlayerCommandListener implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "You need to select 1F and 2F with Elevator Wand!");
                 }
             }
+           /* Listing active elevators of user.
+            if(Objects.equals(args[0], "list")) {
+                FileConfiguration config = plugin.getConfig();
+                Player player = (Player) sender;
+                player.sendMessage(ChatColor.YELLOW + "Your active elevators:\n");
+                ConfigurationSection names = config.getConfigurationSection("settings.elevators");
+                if (names == null){
+                    player.sendMessage(ChatColor.RED + "An error has ocurred, no elevators found in this world.");
+                    return true;
+                }
+                for (String elevators : names.getKeys(false)) {
+                    if(config.get("settings.elevators."+elevators)!= null && !Objects.equals(config.get("settings.elevators." + elevators), player.getDisplayName())){
+                        if(Objects.equals(config.getString("settings.elevators." + elevators + ".owner"), player.getDisplayName())) {
+                                player.sendMessage(ChatColor.GREEN + elevators+"\n");
+                                player.sendMessage(ChatColor.DARK_GREEN +"  -"+ config.getString("settings.elevators"+elevators+"\n"));
+                        }
+                    }
+                }
+                return true;
+            } */
             else if(!(args.length > 1)){
                 Player player = (Player) sender;
                 player.sendMessage(ChatColor.RED + "You need to specify a name!\n"+ChatColor.YELLOW+"Use /se name <elevator-name>");
