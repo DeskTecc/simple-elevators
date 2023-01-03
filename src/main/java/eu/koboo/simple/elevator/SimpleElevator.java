@@ -15,8 +15,6 @@ import java.io.File;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.bukkit.Bukkit.getPlayer;
-
 public class SimpleElevator extends JavaPlugin {
 
     private AtomicReference<ElevatorConfig> configReference;
