@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import static eu.koboo.simple.elevator.listener.WandListener.plugin;
 import static eu.koboo.simple.elevator.listener.WandListener.resetBlocks;
@@ -59,15 +60,15 @@ public class PlayerCommandListener implements CommandExecutor {
                 Player player = (Player) sender;
                 if (config.contains("settings.elevators." + player.getDisplayName() + ".X1") && config.contains("settings.elevators." + player.getDisplayName() + ".X2")) {
                     resetBlocks(player, "all");
-                    player.playSound(player.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,2f,1f);
+                    player.playSound(player.getLocation(),Sound.BLOCK_NOTE_BLOCK_BIT,2f,1f);
                     player.sendMessage(ChatColor.GREEN + "Done!");
                 } else if (config.contains("settings.elevators." + player.getDisplayName() + ".X1") && !config.contains("settings.elevators." + player.getDisplayName() + ".X2")) {
                     resetBlocks(player, "only1");
-                    player.playSound(player.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,2f,1f);
+                    player.playSound(player.getLocation(),Sound.BLOCK_NOTE_BLOCK_BIT,2f,1f);
                     player.sendMessage(ChatColor.GREEN + "Done!");
                 } else if (!config.contains("settings.elevators." + player.getDisplayName() + ".X1") && config.contains("settings.elevators." + player.getDisplayName() + ".X2")) {
                     resetBlocks(player, "only2");
-                    player.playSound(player.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,2f,1f);
+                    player.playSound(player.getLocation(),Sound.BLOCK_NOTE_BLOCK_BIT,2f,1f);
                     player.sendMessage(ChatColor.GREEN + "Done!");
                 } else {
                     player.sendMessage(ChatColor.RED + "You dont have any elevator!");
@@ -98,13 +99,14 @@ public class PlayerCommandListener implements CommandExecutor {
                                 old_block2.getBlock().setType(Material.valueOf(config.getString("settings.elevators." + elevators + ".2F.prev-block")));
                                 config.set("settings.elevators." + elevators, null);
                                 plugin.saveConfig();
-                                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 2f, 1f);
+                                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 2f, 1f);
                                 player.sendMessage(ChatColor.GREEN + "Done!");
                                 return true;
                             }
                         }
                     }
                 }
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 2f, 1f);
                 player.sendMessage(ChatColor.RED + "You have not selected any elevator!");
                 return true;
             }
@@ -158,7 +160,10 @@ public class PlayerCommandListener implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "You need to select 1F and 2F with Elevator Wand!");
                 }
             }
-           /* Listing active elevators of user.
+            else if(!(args.length > 1)){
+                Player player = (Player) sender;
+                player.sendMessage(ChatColor.RED + "You need to specify a name!\n"+ChatColor.YELLOW+"Use /se name <elevator-name>");
+            }
             if(Objects.equals(args[0], "list")) {
                 FileConfiguration config = plugin.getConfig();
                 Player player = (Player) sender;
@@ -168,20 +173,20 @@ public class PlayerCommandListener implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "An error has ocurred, no elevators found in this world.");
                     return true;
                 }
+
                 for (String elevators : names.getKeys(false)) {
                     if(config.get("settings.elevators."+elevators)!= null && !Objects.equals(config.get("settings.elevators." + elevators), player.getDisplayName())){
                         if(Objects.equals(config.getString("settings.elevators." + elevators + ".owner"), player.getDisplayName())) {
-                                player.sendMessage(ChatColor.GREEN + elevators+"\n");
-                                player.sendMessage(ChatColor.DARK_GREEN +"  -"+ config.getString("settings.elevators"+elevators+"\n"));
+                                player.sendMessage(ChatColor.GREEN + elevators);
+                                List<String> list = new ArrayList<String>();
+                                config.getConfigurationSection("settings.elevators."+elevators+".1F").getKeys(false).forEach(key -> list.add(config.getString("settings.elevators."+elevators+".1F." + key)));
+                                player.sendMessage(ChatColor.WHITE + "Data: "+ ChatColor.AQUA+ list.toString()+"\n");
                         }
                     }
                 }
                 return true;
-            } */
-            else if(!(args.length > 1)){
-                Player player = (Player) sender;
-                player.sendMessage(ChatColor.RED + "You need to specify a name!\n"+ChatColor.YELLOW+"Use /se name <elevator-name>");
             }
+
             if (Objects.equals(args[0], "") || Objects.equals(args[0], "help")) {
                 Player player = (Player) sender;
                 player.sendMessage(ChatColor.GOLD + "================="+ChatColor.AQUA+ "SimpleElevator"+ ChatColor.GOLD+"===================\n"+ ChatColor.DARK_GREEN +"/se wand - to get a Elevator Wand!\n/se delete - to delete your elevator.\n/se name - to save and give a name to your elevator."+ChatColor.GOLD + "\n====================================================="+ ChatColor.RESET);

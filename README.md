@@ -18,6 +18,13 @@ Original sources:
   <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" style="width:200px;margin:auto;"></img>
 </a>
 
+<h3> ALREADY ADDED </h3>
+<ul style="list-style-type: none;">
+  <li>[✔️] Elevator Wand </li>
+  <li>[✔️] Create elevators </li>
+  <li>[✔️] Delete elevators </li>
+  <li>[✔️] List elevators </li>
+</ul>
 
 <h3> TODO LIST:</h3>
 <ul style="list-style-type: none;">
@@ -30,4 +37,4 @@ Original sources:
 
 ### PROGRESS BAR:
 
-## [32%] ▰▰▰▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱
+## [35%] ▰▰▰▰▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱
